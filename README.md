@@ -1,6 +1,7 @@
 # hdl-localization-ROS2
 
-ROS2 wrapper for hdl-localization package with docker
+ROS2 wrapper for hdl-localization package with docker.  
+You can refer to the original [hdl localization repository](https://github.com/koide3/hdl_localization.git) for a detailed explanation of the ROS1 version.
 
 ## 1. Build docker image with Dockerfile  
 
