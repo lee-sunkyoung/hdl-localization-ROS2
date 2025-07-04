@@ -23,6 +23,24 @@ Also, be sure to update the 'remappings' section accordingly:
 ```sh
 ('/velodyne_points', points_topic),('/imu/data', imu_topic) 
 ```
+## Build & Run
+
+```sh
+sudo apt install libpcap-dev
+sudo apt install libpcl* pcl-tools
+sudo apt install ros-humble-pcl-ros
+```
+
+```sh
+cd </your_ws/src>
+git clone https://github.com/lee-sunkyoung/hdl-localization-ROS2
+cd ..
+colcon build --symlink-install
+```
+
+```sh
+ros2 launch hdl_localization hdl_localization_2.launch.py
+```
 
 ## Acknowledgement
 - [DataspeedInc/hdl_localization](https://github.com/DataspeedInc/hdl_localization/tree/ros2)   
