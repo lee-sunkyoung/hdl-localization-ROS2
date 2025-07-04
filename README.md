@@ -11,7 +11,7 @@ To use your own data, modify the path to the PCD file, IMU topic, and LiDAR topi
 
 You can make the changes as shown below:
 
-'''
+'''sh
     points_topic = LaunchConfiguration('points_topic', default='/velodyne_points')
     odom_child_frame_id = LaunchConfiguration('odom_child_frame_id', default='velodyne')
     imu_topic = LaunchConfiguration('imu_topic', default='/imu/data')
@@ -20,7 +20,7 @@ You can make the changes as shown below:
 
 Also, be sure to update the 'remappings' section accordingly:
 
-''' 
+'''sh
 ('/velodyne_points', points_topic),('/imu/data', imu_topic) 
 '''
 
