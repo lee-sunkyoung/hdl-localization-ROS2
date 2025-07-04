@@ -1,3 +1,4 @@
+cmake_policy(SET CMP0074 NEW)
 cmake_minimum_required(VERSION 3.5)
 project(hdl_localization)
 
@@ -17,6 +18,7 @@ find_package(pcl_conversions REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(std_srvs REQUIRED)
 find_package(nav_msgs REQUIRED)
 # find_package(pclomp REQUIRED)
 find_package(ndt_omp REQUIRED)
@@ -72,6 +74,8 @@ ament_target_dependencies(${PROJECT_NAME}_lib
   ndt_omp
   fast_gicp
   hdl_global_localization
+  std_srvs
+  std_msgs
 )
 rosidl_target_interfaces(${PROJECT_NAME}_lib
   ${PROJECT_NAME}

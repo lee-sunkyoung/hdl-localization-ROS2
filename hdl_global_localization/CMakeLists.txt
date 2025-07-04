@@ -1,3 +1,4 @@
+cmake_policy(SET CMP0074 NEW)
 cmake_minimum_required(VERSION 3.5)
 project(hdl_global_localization)
 
@@ -8,6 +9,7 @@ find_package(rclpy REQUIRED)
 find_package(pcl_ros REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(nav_msgs REQUIRED)
 
 find_package(OpenCV REQUIRED)
 
@@ -29,6 +31,7 @@ DEPENDENCIES
   std_msgs
   sensor_msgs
   geometry_msgs
+  nav_msgs
 )
 ament_export_dependencies(rosidl_default_runtime)
 
@@ -48,6 +51,7 @@ ament_target_dependencies(${PROJECT_NAME}_lib
   rclcpp
   pcl_ros
   geometry_msgs
+  nav_msgs
 )
 rosidl_target_interfaces(${PROJECT_NAME}_lib
   ${PROJECT_NAME}
@@ -78,6 +82,12 @@ install(
 install(
   DIRECTORY
     launch
+  DESTINATION share/${PROJECT_NAME}
+)
+
+install(
+  DIRECTORY
+    config
   DESTINATION share/${PROJECT_NAME}
 )
 

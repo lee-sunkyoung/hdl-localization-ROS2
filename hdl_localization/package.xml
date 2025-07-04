@@ -21,6 +21,8 @@
   <depend>sensor_msgs</depend>
   <depend>geometry_msgs</depend>
   <depend>nav_msgs</depend>
+  <depend>std_msgs</depend>  
+  <depend>std_srvs</depend>  
   <!-- <depend>pclomp</depend> -->
   <depend>ndt_omp</depend>
   <depend>fast_gicp</depend>

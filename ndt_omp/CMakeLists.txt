@@ -1,3 +1,4 @@
+cmake_policy(SET CMP0074 NEW)
 cmake_minimum_required(VERSION 3.5)
 project(ndt_omp)
 

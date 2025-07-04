@@ -124,7 +124,7 @@ private:
       return ndt;
     } else if(reg_method.find("NDT_CUDA") != std::string::npos) {
       RCLCPP_INFO(get_logger(), "NDT_CUDA is selected");
-      boost::shared_ptr<fast_gicp::NDTCuda<PointT, PointT>> ndt(new fast_gicp::NDTCuda<PointT, PointT>);
+      auto ndt = std::make_shared<fast_gicp::NDTCuda<PointT, PointT>>();     //fixed ros2
       ndt->setResolution(ndt_resolution);
 
       if(reg_method.find("D2D") != std::string::npos) {
@@ -145,7 +145,7 @@ private:
       } else {
         RCLCPP_WARN(get_logger(), "invalid search method was given");
       }
-      return ndt;
+      return std::static_pointer_cast<pcl::Registration<PointT, PointT>>(ndt); //fixed ros2
     }
 
     RCLCPP_ERROR_STREAM(get_logger(), "unknown registration method:" << reg_method);
@@ -155,7 +155,7 @@ private:
   void initialize_params() {
     // intialize scan matching method
     double downsample_resolution = declare_parameter<double>("downsample_resolution", 0.1);
-    boost::shared_ptr<pcl::VoxelGrid<PointT>> voxelgrid(new pcl::VoxelGrid<PointT>());
+    auto voxelgrid = std::make_shared<pcl::VoxelGrid<PointT>>();                   //fixed_ros2
     voxelgrid->setLeafSize(downsample_resolution, downsample_resolution, downsample_resolution);
     downsample_filter = voxelgrid;
 

@@ -20,13 +20,14 @@ def generate_launch_description():
 
     points_topic = LaunchConfiguration('points_topic', default='/velodyne_points')
     odom_child_frame_id = LaunchConfiguration('odom_child_frame_id', default='velodyne')
-   
+    imu_topic = LaunchConfiguration('imu_topic', default='/imu/data')
+    globalmap_pcd = DeclareLaunchArgument('globalmap_pcd', default_value='/home/lsk/ndt_ws/src/map.pcd', description='Path to the global map PCD file')
+
     # optional arguments
     use_imu = LaunchConfiguration('use_imu', default='true')
     invert_imu_acc = LaunchConfiguration('invert_imu_acc', default='false')
     invert_imu_gyro = LaunchConfiguration('invert_imu_gyro', default='false')
     use_global_localization = LaunchConfiguration('use_global_localization', default='false')
-    imu_topic = LaunchConfiguration('imu_topic', default='/zed2i/zed_node/imu/data')
     enable_robot_odometry_prediction = LaunchConfiguration('enable_robot_odometry_prediction', default='false')
     robot_odom_frame_id = LaunchConfiguration('robot_odom_frame_id', default='odom')
     plot_estimation_errors = LaunchConfiguration('plot_estimation_errors', default='false')
@@ -54,7 +55,6 @@ def generate_launch_description():
     )
 
     container = ComposableNodeContainer(
-        # declare_parameter('globalmap_pcd', '/home/ros2_2/src/hdl_localization/data/map.pcd'),
         name='container',
         namespace='',
         package='rclcpp_components',
@@ -65,7 +65,7 @@ def generate_launch_description():
                 plugin='hdl_localization::GlobalmapServerNodelet',
                 name='GlobalmapServerNodelet',
                 parameters=[
-                    {'globalmap_pcd': '/home/ROS2_robotnav_taeyong_container/datasets/2022-09-19-10-00-32.pcd'},
+                    {'globalmap_pcd': LaunchConfiguration('globalmap_pcd')},
                     {'convert_utm_to_local': True},
                     {'downsample_resolution': 0.1}]),
             ComposableNode(
@@ -75,7 +75,7 @@ def generate_launch_description():
                 # remapping
                 # 원래는 /velodyne_points, /gpsimu_driver/imu_data 토픽이 들어올 때 imu, lidar callback이 수행되는데,
                 # remapping을 통해서 points_topic, imu_topic이 들어올 때 callback이 수행되도록 함.
-                remappings=[('/velodyne_points', points_topic), ('/gpsimu_driver/imu_data', imu_topic)],
+                remappings=[('/velodyne_points', points_topic), ('/imu/data', imu_topic),('/gpsimu_driver/imu_data', imu_topic)],
                 parameters=[
                     {'odom_child_frame_id': odom_child_frame_id},
                     {'use_imu': use_imu},
@@ -104,7 +104,16 @@ def generate_launch_description():
     )
 
 
-    return LaunchDescription([launch_ros.actions.SetParameter(name='use_sim_time', value=True),lidar_tf, container])
+    return LaunchDescription([
+        DeclareLaunchArgument(
+            'globalmap_pcd',
+            default_value='/home/lsk/ndt_ws/src/map.pcd',
+            description='Path to the global map PCD file'
+        ),
+        launch_ros.actions.SetParameter(name='use_sim_time', value=True),
+        lidar_tf, 
+        container
+    ])
     # return LaunchDescription([container])
 
 
